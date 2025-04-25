@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -40,14 +41,17 @@ class UserController extends Controller
             return response()->json(['message' => $validated->errors()->first()], 422);
         }
 
-        $user = User::where('username', $request->username)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        $credentials = $request->only('username', 'password');
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        Auth::login($user);
-        return response()->json(['message' => 'Login successful', 'user' => $user], 200);
+        $user = Auth::user();
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
 
     /**
@@ -55,9 +59,7 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 
@@ -87,8 +89,12 @@ class UserController extends Controller
             'temp_password' => $password,
         ]);
 
-        Auth::login($user);
-        return response()->json(['message' => 'Session started', 'user' => $user], 201);
+        $token = JWTAuth::fromUser($user);
+        return response()->json([
+            'message' => 'Session started',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
     /**

@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "dayjs": "^1.11.12",
+        "pinia": "^3.0.2",
         "vue-loader": "^17.4.2",
         "vue-router": "^4.5.0"
     }

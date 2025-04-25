@@ -23,9 +23,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
 const router = useRouter();
 const route = useRoute();
+const authStore = useAuthStore();
 const recipientName = ref(null);
 const loading = ref(true);
 const error = ref(null);
@@ -33,7 +35,18 @@ const form = ref({ message: '' });
 const sending = ref(false);
 const successMessage = ref(null);
 
+const checkAuthAndRedirect = () => {
+    if (!authStore.token) {
+        localStorage.setItem('redirectAfterStart', route.fullPath);
+        router.push({ name: 'landing-page' });
+        return false;
+    }
+    return true;
+};
+
 const fetchRecipient = async () => {
+    if (!checkAuthAndRedirect()) return;
+
     const encodedUsername = route.query.abcNum;
     if (!encodedUsername) {
         error.value = 'Invalid link';
@@ -47,6 +60,7 @@ const fetchRecipient = async () => {
         const response = await fetch(`/api/user/name/${encodeURIComponent(username)}`, {
             headers: {
                 'Accept': 'application/json',
+                'Authorization': `Bearer ${authStore.token}`,
             },
         });
         if (!response.ok) {
@@ -63,6 +77,8 @@ const fetchRecipient = async () => {
 };
 
 const sendMessage = async () => {
+    if (!checkAuthAndRedirect()) return;
+
     sending.value = true;
     successMessage.value = null;
 
@@ -73,6 +89,7 @@ const sendMessage = async () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'Authorization': `Bearer ${authStore.token}`,
             },
             body: JSON.stringify({
                 msg_content: form.value.message,
@@ -82,6 +99,11 @@ const sendMessage = async () => {
 
         if (!response.ok) {
             const data = await response.json();
+            if (response.status === 401) {
+                localStorage.setItem('redirectAfterStart', route.fullPath);
+                router.push({ name: 'landing-page' });
+                return;
+            }
             throw new Error(data.message || 'Failed to send message');
         }
 

@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
-const router = useRouter();
+const authStore = useAuthStore();
 const form = ref({ username: '', password: '' });
 const loading = ref(false);
 const error = ref(null);
@@ -12,24 +12,7 @@ const login = async () => {
     error.value = null;
 
     try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(form.value),
-        });
-
-        if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.message || 'Login failed');
-        }
-
-        const data = await response.json();
-        localStorage.setItem('userId', data.user.id);
-        router.push({ name: 'home-page' });
+        await authStore.login(form.value);
     } catch (err) {
         error.value = err.message;
     } finally {

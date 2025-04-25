@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Message;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = JWTAuth::user();
         if (!$user) {
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
@@ -35,6 +36,11 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
+        $user = JWTAuth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+
         $validated = Validator::make($request->all(), [
             'msg_content' => 'required|string|max:1000',
             'username' => 'required|string|exists:users,username',
@@ -44,12 +50,12 @@ class MessageController extends Controller
             return response()->json(['message' => $validated->errors()->first()], 422);
         }
 
-        $user = User::where('username', $request->username)->first();
+        $recipient = User::where('username', $request->username)->first();
         $cleanMessage = strip_tags($request->msg_content);
 
         $message = Message::create([
             'msg_content' => $cleanMessage,
-            'user_id' => $user->id,
+            'user_id' => $recipient->id,
         ]);
 
         return response()->json(['message' => 'Message sent', 'data' => $message], 201);
