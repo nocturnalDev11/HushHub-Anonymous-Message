@@ -41,10 +41,6 @@ const copyLink = () => {
     });
 };
 
-const logout = async () => {
-    await authStore.logout();
-};
-
 onMounted(() => {
     if (!authStore.token) {
         router.push({ name: 'landing-page' });
@@ -73,9 +69,6 @@ onMounted(() => {
                     </p>
                     <button @click="copyLink" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">
                         Copy Link
-                    </button>
-                    <button @click="logout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">
-                        Logout
                     </button>
                 </header>
             </div>
