@@ -5,11 +5,36 @@ namespace App\Http\Controllers\API\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    /**
+     * Handle user login.
+     */
+    public function login(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['message' => $validated->errors()->first()], 422);
+        }
+
+        $user = User::where('username', $request->username)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        Auth::login($user);
+        return response()->json(['message' => 'Login successful', 'user' => $user], 200);
+    }
+
     /**
      * Display a listing of the resource.
      */
