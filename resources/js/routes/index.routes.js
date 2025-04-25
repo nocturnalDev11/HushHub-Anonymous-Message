@@ -39,7 +39,23 @@ const routes = [
                 }
             },
         ]
-    }
+    },
+    // Authenticated routes
+    {
+        path: '/user',
+        component: () => import('../layouts/AuthLayout.vue'),
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'home',
+                component: () => import('../pages/user/HomePage.vue'),
+                name: 'home-page',
+                meta: {
+                    title: 'Home',
+                }
+            },
+        ]
+    },
 ];
 
 const router = createRouter({

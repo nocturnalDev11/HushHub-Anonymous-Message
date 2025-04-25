@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Authenticate
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next, ...$guards): Response
     {
         foreach ($guards as $guard) {
@@ -23,14 +18,14 @@ class Authenticate
             }
         }
 
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
         $redirectPath = match ($guards[0] ?? 'web') {
             'admin' => route('admin.login'),
             default => route('login'),
         };
-
-        if ($request->expectsJson()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
 
         return redirect()->guest($redirectPath);
     }
