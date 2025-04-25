@@ -19,16 +19,16 @@ const routes = [
                 meta: { title: 'Login' }
             },
             {
-                path: '/user/signup',
-                name: 'user-signup',
-                component: () => import('../pages/user/auth/Signup.vue'),
-                meta: { title: 'Signup' }
-            },
-            {
                 path: '/user/forgot-password',
                 name: 'user-forgot-password',
                 component: () => import('../pages/user/auth/ForgotPassword.vue'),
                 meta: { title: 'Forgot Password' }
+            },
+            {
+                path: '/send-message',
+                name: 'send-message',
+                component: () => import('../pages/user/SendMessage.vue'),
+                meta: { title: 'Send Anonymous Message' }
             },
             {
                 path: '/:pathMatch(.*)*',

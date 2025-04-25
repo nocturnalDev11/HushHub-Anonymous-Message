@@ -1,20 +1,11 @@
 <template>
-    <nav class="flex justify-between p-3">
-        <router-link to="/" class="text-2xl font-bold items-center">
+    <nav class="flex px-3 py-2 justify-between items-center mb-8">
+        <router-link to="/" class="text-2xl font-bold text-indigo-600">
             HushHub
         </router-link>
-        <ul class="space-x-4 flex items-center">
-            <li>
-                <router-link to="/user/login" class="text-xl items-center hover:text-indigo-500">
-                    Login
-                </router-link>
-            </li>
-            <li>
-                <router-link to="/user/signup" class="text-xl items-center hover:text-indigo-500">
-                    Signup
-                </router-link>
-            </li>
-        </ul>
+        <router-link to="/user/login">
+            <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Login</button>
+        </router-link>
     </nav>
 
     <main>

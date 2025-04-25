@@ -1,10 +1,10 @@
 <template>
-    <nav class="flex justify-between p-3">
-        <router-link to="/user/home" class="text-2xl font-bold items-center">
+    <nav class="flex px-3 py-2 justify-between">
+        <router-link to="/user/home" class="text-2xl font-bold text-indigo-600">
             HushHub
         </router-link>
         <div class="space-x-4 flex items-center">
-            <router-link to="/user/signup" class="text-xl items-center hover:text-indigo-500">
+            <router-link to="/" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                 Logout
             </router-link>
         </div>

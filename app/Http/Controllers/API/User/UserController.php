@@ -8,9 +8,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    /**
+     * Get user name by username.
+     */
+    public function getName(string $username)
+    {
+        $user = User::where('username', urldecode($username))->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json(['name' => $user->name]);
+    }
+
     /**
      * Handle user login.
      */
@@ -36,6 +51,47 @@ class UserController extends Controller
     }
 
     /**
+     * Handle user logout.
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
+    /**
+     * Handle start session by creating a user.
+     */
+    public function start(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['message' => $validated->errors()->first()], 422);
+        }
+
+        $name = trim(strip_tags($request->name));
+        $username = str_replace(' ', '_', $name) . '@' . time();
+        $password = Str::random(10);
+        $email = $username . '@hushhub.com';
+
+        $user = User::create([
+            'name' => $name,
+            'username' => $username,
+            'email' => $email,
+            'password' => Hash::make($password),
+            'temp_password' => $password,
+        ]);
+
+        Auth::login($user);
+        return response()->json(['message' => 'Session started', 'user' => $user], 201);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -56,7 +112,7 @@ class UserController extends Controller
         ]);
 
         if ($validated->fails()) {
-            return response()->json(['message' => $validated->errors()->first()], 422);
+            return response()->json(['message' => 'Invalid credentials'], 422);
         }
 
         $user = User::create([
@@ -80,7 +136,12 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        return response()->json($user);
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'username' => $user->username,
+            'temp_password' => $user->temp_password,
+        ]);
     }
 
     /**
