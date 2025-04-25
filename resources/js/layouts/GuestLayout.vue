@@ -1,18 +1,18 @@
 <template>
-    <nav class="flex justify-between">
-        <route-link to="/" class="text-2xl font-bold items-center">
+    <nav class="flex justify-between p-3">
+        <router-link to="/" class="text-2xl font-bold items-center">
             HushHub
-        </route-link>
+        </router-link>
         <ul class="space-x-4 flex items-center">
             <li>
-                <route-link to="/user/login" class="text-2xl font-bold items-center">
+                <router-link to="/user/login" class="text-xl items-center hover:text-indigo-500">
                     Login
-                </route-link>
+                </router-link>
             </li>
             <li>
-                <route-link to="/user/signup" class="text-2xl font-bold items-center">
+                <router-link to="/user/signup" class="text-xl items-center hover:text-indigo-500">
                     Signup
-                </route-link>
+                </router-link>
             </li>
         </ul>
     </nav>
@@ -25,15 +25,3 @@
         </router-view>
     </main>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-</style>
