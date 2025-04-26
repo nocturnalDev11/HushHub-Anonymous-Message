@@ -87,7 +87,14 @@ onMounted(async () => {
     <div class="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-teal-50 to-gray-100">
         <div class="mx-auto px-4 py-12 max-w-7xl">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-8">
+                <!-- Background Decorative Layer -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute -top-20 -left-20 w-60 h-60 bg-indigo-200 rounded-full opacity-30 blur-2xl">
+                    </div>
+                    <div class="absolute top-10 right-0 w-72 h-72 bg-teal-200 rounded-full opacity-30 blur-2xl"></div>
+                </div>
+
+                <div class="relative lg:col-span-2 bg-white rounded-2xl shadow-sm p-8">
                     <div v-if="loadingUser" class="text-gray-500 text-sm animate-pulse">
                         Loading user details...
                     </div>
@@ -112,7 +119,7 @@ onMounted(async () => {
                                 </p>
                             </div>
                             <button @click="copyCredentials"
-                                class="mt-4 inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                                class="mt-4 inline-flex items-center px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
                                 <span class="material-icons-outlined mr-2">content_copy</span>
                                 Copy Credentials
                             </button>

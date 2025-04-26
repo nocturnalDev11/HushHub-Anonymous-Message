@@ -28,42 +28,6 @@ class UserController extends Controller
     }
 
     /**
-     * Handle user login.
-     */
-    public function login(Request $request)
-    {
-        $validated = Validator::make($request->all(), [
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        if ($validated->fails()) {
-            return response()->json(['message' => $validated->errors()->first()], 422);
-        }
-
-        $credentials = $request->only('username', 'password');
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user = Auth::user();
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => $user,
-            'token' => $token
-        ], 200);
-    }
-
-    /**
-     * Handle user logout.
-     */
-    public function logout(Request $request)
-    {
-        JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json(['message' => 'Logged out successfully'], 200);
-    }
-
-    /**
      * Handle start session by creating a user.
      */
     public function start(Request $request)

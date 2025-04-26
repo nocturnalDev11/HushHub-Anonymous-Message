@@ -27,8 +27,7 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
-    <div
-        class="relative min-h-screen bg-gradient-to-br from-indigo-50 via-gray-50 to-teal-50 flex items-center justify-center px-4 py-8">
+    <div class="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-teal-50 to-gray-100">
         <div
             class="max-w-md w-full bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
             <h1

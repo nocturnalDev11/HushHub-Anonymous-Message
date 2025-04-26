@@ -92,20 +92,30 @@ export const useAuthStore = defineStore('auth', () => {
 
     const logout = async () => {
         try {
-            await fetch('/api/logout', {
+            const response = await fetch('/api/logout', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token.value}`,
                     'Accept': 'application/json',
                 },
             });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Logout failed');
+            }
+
+            const data = await response.json();
             user.value = null;
             token.value = null;
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             router.push({ name: 'landing-page' });
+
+            return { success: true, message: data.status || 'Logged out' };
         } catch (error) {
             console.error('Logout failed:', error);
+            return { success: false, message: error.message || 'Logout failed' };
         }
     };
 
