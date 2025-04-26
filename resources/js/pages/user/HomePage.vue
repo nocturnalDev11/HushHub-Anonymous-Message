@@ -84,10 +84,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50 font-sans">
-        <div class="container mx-auto px-4 py-12 max-w-7xl">
+    <div class="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-teal-50 to-gray-100">
+        <div class="mx-auto px-4 py-12 max-w-7xl">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Profile Card -->
                 <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-8">
                     <div v-if="loadingUser" class="text-gray-500 text-sm animate-pulse">
                         Loading user details...
@@ -97,9 +96,10 @@ onMounted(async () => {
                             <h1 class="text-2xl font-semibold text-gray-900">
                                 Hey, {{ authStore.user?.name || 'User' }}!
                             </h1>
-                            <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors cursor-pointer">
+                            <router-link to="/user/settings"
+                                class="text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors cursor-pointer">
                                 <span class="material-icons-outlined mr-2">settings</span>
-                            </button>
+                            </router-link>
                         </div>
                         <div class="mt-6 bg-gradient-to-r from-indigo-50 to-teal-50 rounded-xl p-6">
                             <p class="text-sm text-gray-600 mb-4">Save these credentials for future logins:</p>
@@ -132,7 +132,7 @@ onMounted(async () => {
                         Unable to load user details.
                     </div>
                 </div>
-                <!-- Messages Card -->
+
                 <div class="bg-white rounded-2xl shadow-sm p-8">
                     <h2 class="text-xl font-semibold text-gray-900 mb-6">Messages</h2>
                     <div v-if="loadingMessages" class="text-gray-500 text-sm animate-pulse">Loading messages...</div>
@@ -147,7 +147,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <!-- Toast Notifications -->
+
         <div class="fixed bottom-6 right-6 space-y-2">
             <Toast v-for="toast in toasts" :key="toast.id" :message="toast.message" :description="toast.description"
                 :type="toast.type" @close="removeToast(toast.id)" />
@@ -156,10 +156,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-* {
-    font-family: 'Inter', sans-serif;
-}
-
 .material-icons-outlined {
     font-family: 'Material Icons Outlined' !important;
 }
