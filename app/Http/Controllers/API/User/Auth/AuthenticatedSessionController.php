@@ -31,6 +31,7 @@ class AuthenticatedSessionController extends Controller
                     'id' => $user->id,
                     'username' => $user->username,
                     'name' => $user->name,
+                    'temp_password' => $user->temp_password,
                 ],
             ], 200);
         } catch (JWTException $e) {
