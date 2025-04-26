@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -16,12 +16,20 @@ export const useAuthStore = defineStore('auth', () => {
                     'Accept': 'application/json',
                 },
             });
-            if (!response.ok) throw new Error('Failed to fetch user');
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 404) {
+                    logout();
+                    throw new Error('Session expired or user not found');
+                }
+                throw new Error('Failed to fetch user');
+            }
             const data = await response.json();
             user.value = data;
         } catch (error) {
             console.error('Fetch user failed:', error);
-            logout();
+            if (error.message !== 'Session expired or user not found') {
+                logout();
+            }
         }
     };
 
@@ -115,6 +123,12 @@ export const useAuthStore = defineStore('auth', () => {
             return { success: true, message: data.status || 'Logged out' };
         } catch (error) {
             console.error('Logout failed:', error);
+
+            user.value = null;
+            token.value = null;
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            router.push({ name: 'landing-page' });
             return { success: false, message: error.message || 'Logout failed' };
         }
     };
@@ -127,7 +141,13 @@ export const useAuthStore = defineStore('auth', () => {
                     'Accept': 'application/json',
                 },
             });
-            if (!response.ok) throw new Error('Failed to fetch messages');
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 404) {
+                    logout();
+                    throw new Error('Session expired or user not found');
+                }
+                throw new Error('Failed to fetch messages');
+            }
             return await response.json();
         } catch (error) {
             throw error;

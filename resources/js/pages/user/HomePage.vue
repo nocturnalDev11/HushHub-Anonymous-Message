@@ -11,6 +11,7 @@ const loadingMessages = ref(true);
 const errorMessages = ref(null);
 const toasts = ref([]);
 const loadingUser = ref(false);
+const showPassword = ref(false);
 
 const shareLink = computed(() => {
     const baseUrl = window.location.origin;
@@ -66,6 +67,10 @@ const removeToast = (id) => {
     toasts.value = toasts.value.filter(toast => toast.id !== id);
 };
 
+const togglePasswordVisibility = () => {
+    showPassword.value = !showPassword.value;
+};
+
 onMounted(async () => {
     if (!authStore.token) {
         router.push({ name: 'landing-page' });
@@ -114,12 +119,30 @@ onMounted(async () => {
                                 <p class="text-sm font-medium text-gray-900">
                                     Username: <span>{{ authStore.user?.username }}</span>
                                 </p>
-                                <p class="text-sm font-medium text-gray-900">
-                                    Password: <span>{{ authStore.user?.temp_password || 'Not available' }}</span>
-                                </p>
+                                <div v-if="!authStore.user?.has_updated_password"
+                                    class="relative flex items-center bg-gray-100 rounded-lg px-4 py-2.5 border border-gray-200 hover:border-indigo-300 transition-all duration-200 focus-within:ring-2 focus-within:ring-indigo-300">
+                                    <p class="flex-1 text-sm font-medium text-gray-900 truncate">
+                                        Password:
+                                        <span class="inline-block transition-opacity duration-200"
+                                            :class="{ 'opacity-70': !showPassword }">
+                                            {{ showPassword ? (authStore.user?.temp_password || 'Not available') :
+                                            '••••••' }}
+                                        </span>
+                                    </p>
+                                    <button @click="togglePasswordVisibility" type="button"
+                                        class="group relative flex items-center justify-center w-8 h-8 rounded-full bg-white/80 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition-all duration-200 shadow-sm"
+                                        aria-label="Toggle password visibility">
+                                        <span
+                                            class="material-symbols-outlined text-lg group-hover:scale-110 transition-transform duration-200">
+                                            {{ showPassword ? 'visibility_off' : 'visibility' }}
+                                        </span>
+                                        <span
+                                            class="absolute inset-0 rounded-full bg-indigo-200 opacity-0 group-active:opacity-30 group-active:scale-125 transition-all duration-200"></span>
+                                    </button>
+                                </div>
                             </div>
                             <button @click="copyCredentials"
-                                class="mt-4 inline-flex items-center px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                                class="mt-4 inline-flex items-center px-4 py-2 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-700 transition-colors cursor-pointer">
                                 <span class="material-icons-outlined mr-2">content_copy</span>
                                 Copy Credentials
                             </button>

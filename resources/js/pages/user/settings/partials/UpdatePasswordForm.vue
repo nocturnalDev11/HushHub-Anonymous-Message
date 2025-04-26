@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
+import TextInput from '@/components/TextInput.vue';
+import { Text } from 'vue';
 
 const authStore = useAuthStore();
 const currentPassword = ref('');
@@ -103,16 +105,15 @@ const togglePasswordVisibility = () => {
 <template>
     <div
         class="relative z-10 max-w-xl w-full bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-100">
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-teal-500 bg-clip-text text-transparent">
-            Update Password
+        <h1 class="text-2xl font-semibold text-gray-900">
+            Change Password
         </h1>
         <form @submit.prevent="updatePassword" class="mt-6 space-y-4">
             <div>
                 <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
                 <div class="relative">
-                    <input v-model="currentPassword" :type="showPassword ? 'text' : 'password'" id="current_password"
-                        class="w-full pl-3 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 outline-none transition-all duration-200 placeholder-gray-400"
-                        required />
+                    <TextInput v-model="currentPassword" :type="showPassword ? 'text' : 'password'"
+                        id="current_password" class="pl-3 pr-12" required />
                     <button @click="togglePasswordVisibility" type="button"
                         class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
                         aria-label="Toggle password visibility">
@@ -126,8 +127,8 @@ const togglePasswordVisibility = () => {
             <div>
                 <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
                 <div class="relative">
-                    <input v-model="newPassword" :type="showPassword ? 'text' : 'password'" id="new_password"
-                        class="w-full pl-3 pr-12 py-3 border" :class="{
+                    <TextInput v-model="newPassword" :type="showPassword ? 'text' : 'password'" id="new_password"
+                        class="pl-3 pr-12" :class="{
                             'border-gray-200 focus:ring-indigo-300 focus:border-indigo-500': !passwordErrors.length,
                             'border-red-500 focus:ring-red-300 focus:border-red-500': passwordErrors.length
                         }" required />
@@ -154,8 +155,8 @@ const togglePasswordVisibility = () => {
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New
                     Password</label>
                 <div class="relative">
-                    <input v-model="newPasswordConfirmation" :type="showPassword ? 'text' : 'password'"
-                        id="password_confirmation" class="w-full pl-3 pr-12 py-3 border" :class="{
+                    <TextInput v-model="newPasswordConfirmation" :type="showPassword ? 'text' : 'password'"
+                        id="password_confirmation" class="pl-3 pr-12" :class="{
                             'border-gray-200 focus:ring-indigo-300 focus:border-indigo-500': passwordMatch,
                             'border-red-500 focus:ring-red-300 focus:border-red-500': !passwordMatch
                         }" required />
