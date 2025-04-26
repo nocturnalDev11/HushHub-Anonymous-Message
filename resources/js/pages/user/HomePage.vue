@@ -90,7 +90,7 @@ onMounted(async () => {
 
 <template>
     <div class="flex flex-1 items-center justify-center bg-gradient-to-br from-indigo-50 via-teal-50 to-gray-100">
-        <div class="mx-auto px-4 py-12 max-w-7xl">
+        <div class="mx-auto px-4 py-12 max-w-7xl w-full">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Background Decorative Layer -->
                 <div class="absolute inset-0 pointer-events-none">

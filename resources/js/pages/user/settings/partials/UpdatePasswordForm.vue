@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
 import TextInput from '@/components/TextInput.vue';
-import { Text } from 'vue';
 
 const authStore = useAuthStore();
 const currentPassword = ref('');
@@ -11,10 +10,8 @@ const newPasswordConfirmation = ref('');
 const loading = ref(false);
 const showPassword = ref(false);
 
-// Emit events for toast notifications
 const emit = defineEmits(['add-toast']);
 
-// Password validation
 const passwordErrors = ref([]);
 const passwordStrength = computed(() => {
     const password = newPassword.value;
@@ -103,8 +100,7 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
-    <div
-        class="relative z-10 max-w-xl w-full bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-100">
+    <div>
         <h1 class="text-2xl font-semibold text-gray-900">
             Change Password
         </h1>

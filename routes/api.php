@@ -15,6 +15,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/messages', [MessageController::class, 'index']);
     Route::post('/messages', [MessageController::class, 'store']);
     Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
