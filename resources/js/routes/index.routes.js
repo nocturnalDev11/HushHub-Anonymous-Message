@@ -10,7 +10,6 @@ const routes = [
                 path: '',
                 name: 'landing-page',
                 component: () => import('../pages/LandingPage.vue'),
-                meta: { title: 'Login' }
             },
             {
                 path: '/user/login',

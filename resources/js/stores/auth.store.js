@@ -1,11 +1,33 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', () => {
     const router = useRouter();
     const user = ref(null);
     const token = ref(localStorage.getItem('token') || null);
+
+    const fetchUser = async () => {
+        if (!token.value) return;
+        try {
+            const response = await fetch(`/api/users/${localStorage.getItem('userId')}`, {
+                headers: {
+                    'Authorization': `Bearer ${token.value}`,
+                    'Accept': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error('Failed to fetch user');
+            const data = await response.json();
+            user.value = data;
+        } catch (error) {
+            console.error('Fetch user failed:', error);
+            logout();
+        }
+    };
+
+    if (token.value) {
+        fetchUser();
+    }
 
     const login = async (credentials) => {
         try {
@@ -102,5 +124,5 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    return { user, token, login, startSession, logout, fetchMessages };
+    return { user, token, login, startSession, logout, fetchMessages, fetchUser };
 });
