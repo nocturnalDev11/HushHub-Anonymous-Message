@@ -10,10 +10,9 @@ export function useUserApi(userId = null) {
         error.value = null;
 
         try {
-            // Construct endpoint: use userId for specific user, or fallback to a general user endpoint
             const endpoint = userId ? `/api/users/${userId}` : '/api/users';
             const response = await fetch(endpoint, {
-                credentials: 'include', // Include session cookie for auth:web
+                credentials: 'include',
                 headers: {
                     'Accept': 'application/json',
                 },
@@ -27,7 +26,6 @@ export function useUserApi(userId = null) {
         }
     };
 
-    // Trigger fetch immediately
     fetchData();
 
     return {
