@@ -1,61 +1,229 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **HushHub Anonymous Message**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## **App Description**
 
-## About Laravel
+**HushHub Anonymous Message** is a full-stack web application that enables users to send and receive anonymous messages securely and privately. Built with a Laravel 12 backend for API handling and authentication, and a reactive Vue 3 frontend powered by Vite and Tailwind CSS for a lightning-fast user experience.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Designed with privacy and simplicity in mind, it uses **JWT-based authentication** for secure, stateless API communication. The frontend delivers a seamless Single Page Application (SPA) experience with Vue 3, Pinia, and Vue Router — fully responsive, modern, and optimized.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## **Tech Stack Breakdown**
 
-## Learning Laravel
+### Backend — Laravel API Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* **Laravel 12** — API backend, authentication, routing, and database logic.
+* **JWT Authentication (`tymon/jwt-auth`)** — Stateless token-based authentication.
+* **Laravel Tinker** — Interactive REPL for backend operations.
+* **Laravel Pail** — Real-time backend logs for debugging.
+* **PHPUnit** — Backend unit and feature testing.
+* **FakerPHP** — Dummy data generation for testing and seeding.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Language:** PHP ^8.2
+**Framework:** Laravel ^12.0
+**Package Manager:** Composer
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### Frontend — Vite + Vue Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* **Vue 3** — Reactive, component-based UI framework.
+* **Pinia** — Lightweight state management.
+* **Vue Router** — Client-side routing.
+* **Vite** — Next-gen frontend tooling with lightning-fast builds.
+* **Tailwind CSS 4** — Modern, utility-first CSS framework.
+* **Axios** — HTTP client for API calls.
+* **Day.js** — Lightweight date/time manipulation.
+* **Concurrently** — Run multiple processes (backend, frontend, logs) together.
 
-### Premium Partners
+**Language:** JavaScript (ESM)
+**Framework:** Vue 3
+**Build Tool:** Vite
+**Package Manager:** NPM
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Authentication & Security
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **JWT (JSON Web Tokens)** — Stateless, secure API communication between frontend and backend.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Architecture Overview
 
-## Security Vulnerabilities
+* **Backend:** RESTful API (Laravel 12 + JWT)
+* **Frontend:** SPA (Vue 3 + Vite + Tailwind CSS)
+* **State Management:** Pinia
+* **Routing:** Vue Router (Client-side) + Laravel (API)
+* **API Communication:** Axios (JSON-based REST)
+* **Authentication:** JWT
+* **Dev Environment:** Concurrently + Laravel Pail
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## **Setup Guide with JWT**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Requirements
+
+* **PHP >= 8.2**
+* **Composer**
+* **Node.js & NPM**
+* **MySQL / PostgreSQL / SQLite**
+* *(Optional)* Laravel globally installed
+
+---
+
+### Project Setup
+
+#### 1. **Clone the Repository**
+
+```bash
+git clone https://github.com/nocturnalDev11/HushHub-Anonymous-Message.git
+cd HushHub-Anonymous-Message
+```
+
+#### 2. **Install PHP Dependencies**
+
+```bash
+composer install
+```
+
+#### 3. **Install Node Dependencies (Frontend)**
+
+```bash
+npm install
+npm run dev   # Or use npm run build for production
+```
+
+#### 4. **Copy .env File**
+
+```bash
+cp .env.example .env
+```
+
+#### 5. **Generate App Key**
+
+```bash
+php artisan key:generate
+```
+
+#### 6. **Generate JWT Secret**
+
+```bash
+php artisan jwt:secret
+```
+
+#### 7. **Database Setup**
+
+* Create a database.
+* Configure the `.env` file:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_db_name
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+```
+
+#### 8. **Run Migrations**
+
+```bash
+php artisan migrate
+# Optionally, run with seeders:
+php artisan migrate --seed
+```
+
+#### 9. **(Optional) Create Storage Link**
+
+```bash
+php artisan storage:link
+```
+
+---
+
+### **Running the Project Locally**
+
+```bash
+composer run dev
+```
+
+Access it via: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## Authentication
+
+This app uses **JWT (JSON Web Tokens)** for authentication.
+
+* Upon login or registration, a token is issued.
+* Include this token in your API request headers:
+
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+---
+
+## Troubleshooting
+
+* **JWT Issues:** Run:
+
+```bash
+php artisan jwt:secret
+```
+
+* **Permission Errors:** Run:
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+* **Cache Issues:** Clear caches:
+
+```bash
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+---
+
+## Deployment
+
+* Build frontend for production:
+
+```bash
+npm run build
+```
+
+* Run database migrations on production.
+* Set correct file and folder permissions.
+
+---
+
+## Credits
+
+* Built with Laravel ❤️
+* JWT powered by `tymon/jwt-auth`
+* Frontend powered by Vue 3, Vite, and Tailwind CSS
+
+---
+
+## Support
+
+Feel free to open issues, submit pull requests, or contribute. Happy coding!
+
+---
+
+## Author
+
+> **Lutz** — Full-stack Developer
+> [GitHub](https://github.com/nocturnalDev11)
+
+---
+
+## **TL;DR**
+
+**HushHub Anonymous Message** is a modern anonymous messaging app powered by Laravel 12 with JWT authentication, and a Vue 3 + Vite + Tailwind CSS frontend. Scalable. Fast. Secure. Private.
