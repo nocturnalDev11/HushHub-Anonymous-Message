@@ -85,7 +85,7 @@ const checkAuthAndRedirect = () => {
 const fetchRecipient = async () => {
     if (!checkAuthAndRedirect()) return;
 
-    const encodedUsername = route.query.abcNum;
+    const encodedUsername = route.query.hushhub;
     if (!encodedUsername) {
         error.value = 'Invalid link';
         loading.value = false;
@@ -121,7 +121,7 @@ const sendMessage = async () => {
     successMessage.value = null;
 
     try {
-        const username = atob(route.query.abcNum);
+        const username = atob(route.query.hushhub);
         const response = await fetch('/api/messages', {
             method: 'POST',
             headers: {

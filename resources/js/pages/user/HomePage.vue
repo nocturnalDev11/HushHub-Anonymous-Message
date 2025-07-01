@@ -16,7 +16,7 @@ const showPassword = ref(false);
 const shareLink = computed(() => {
     const baseUrl = window.location.origin;
     const encodedUsername = btoa(authStore.user?.username || '');
-    return `${baseUrl}/send-message?abcNum=${encodedUsername}`;
+    return `${baseUrl}/send-message?hushhub=${encodedUsername}`;
 });
 
 const formatDate = (dateString) => {
